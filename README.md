@@ -1,6 +1,13 @@
 # SauceDemo Enterprise Automation Testing Framework
 
+[![SauceDemo Playwright Test Automation CI/CD](https://github.com/TanzimSQA/saucedemo-playwright-automation/actions/workflows/playwright_ci.yml/badge.svg)](https://github.com/TanzimSQA/saucedemo-playwright-automation/actions/workflows/playwright_ci.yml)
+[![GitHub Pages Report](https://img.shields.io/badge/Test%20Report-GitHub%20Pages-brightgreen?style=flat&logo=github)](https://tanzimsqa.github.io/saucedemo-playwright-automation/)
+[![Schedule](https://img.shields.io/badge/Scheduled%20Run-10%3A00%20AM%20BST%20Everyday-blue)](https://github.com/TanzimSQA/saucedemo-playwright-automation/actions)
+
 An enterprise-grade, end-to-end automated testing suite for [SauceDemo (Swag Labs)](https://www.saucedemo.com/) developed with **Python**, **Playwright**, and **Pytest**, following the industry-standard **Page Object Model (POM)** pattern.
+
+> 🌐 **Live Interactive HTML Test Report**: [https://tanzimsqa.github.io/saucedemo-playwright-automation/](https://tanzimsqa.github.io/saucedemo-playwright-automation/)  
+> ⏰ **Automated Schedule**: Runs automatically every day at **10:00 AM Bangladesh Standard Time (BST, UTC+6)** / `04:00 UTC`.
 
 ---
 
