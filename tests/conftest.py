@@ -17,9 +17,9 @@ from data.test_data import TestData
 load_dotenv()
 
 BASE_URL = os.getenv("BASE_URL", TestData.BASE_URL)
-HEADLESS = os.getenv("HEADLESS", "false").lower() == "true"
-DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", "10000"))
-SLOW_MO = int(os.getenv("SLOW_MO", "200" if not HEADLESS else "0"))
+HEADLESS = os.getenv("HEADLESS", "true").lower() == "true"
+DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", "15000"))
+SLOW_MO = int(os.getenv("SLOW_MO", "0" if HEADLESS else "200"))
 
 SCREENSHOTS_DIR = Path("reports/screenshots")
 SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)

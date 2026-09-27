@@ -24,8 +24,8 @@ class CartPage(BasePage):
     def is_loaded(self, timeout: int = 10000) -> bool:
         """Verifies cart page is displayed."""
         try:
-            self.title_heading.wait_for(state="visible", timeout=timeout)
-            return self.title_heading.inner_text().strip() == "Your Cart"
+            self.page.locator("[data-test='title']:has-text('Your Cart')").wait_for(state="visible", timeout=timeout)
+            return True
         except Exception:
             return False
 

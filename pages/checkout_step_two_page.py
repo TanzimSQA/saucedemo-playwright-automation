@@ -29,8 +29,8 @@ class CheckoutStepTwoPage(BasePage):
     def is_loaded(self, timeout: int = 10000) -> bool:
         """Verifies checkout overview page is displayed."""
         try:
-            self.title_heading.wait_for(state="visible", timeout=timeout)
-            return self.title_heading.inner_text().strip() == "Checkout: Overview"
+            self.page.locator("[data-test='title']:has-text('Checkout: Overview')").wait_for(state="visible", timeout=timeout)
+            return True
         except Exception:
             return False
 

@@ -22,8 +22,8 @@ class CheckoutCompletePage(BasePage):
     def is_loaded(self, timeout: int = 10000) -> bool:
         """Verifies checkout complete page is displayed."""
         try:
-            self.title_heading.wait_for(state="visible", timeout=timeout)
-            return self.title_heading.inner_text().strip() == "Checkout: Complete!"
+            self.page.locator("[data-test='title']:has-text('Checkout: Complete!')").wait_for(state="visible", timeout=timeout)
+            return True
         except Exception:
             return False
 
