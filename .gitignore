@@ -1,0 +1,17 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Pytest & Test Reports
+.pytest_cache/
+reports/screenshots/
+
+# Environment Variables
+.env

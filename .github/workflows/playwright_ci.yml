@@ -1,0 +1,91 @@
+name: SauceDemo Playwright Test Automation CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # 04:00 UTC is exactly 10:00 AM Bangladesh Standard Time (BST, UTC+6) everyday
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Run Automated Playwright Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Browsers & Dependencies
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Run Pytest Test Suite
+        env:
+          BASE_URL: https://www.saucedemo.com
+          HEADLESS: "true"
+          DEFAULT_TIMEOUT: "15000"
+          SLOW_MO: "0"
+        run: |
+          mkdir -p reports
+          pytest -v -s --html=reports/index.html --self-contained-html
+
+      - name: Copy Report to test_report.html
+        if: always()
+        run: |
+          cp reports/index.html reports/test_report.html || true
+
+      - name: Upload Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-report
+          path: reports/
+          retention-days: 30
+
+      - name: Setup GitHub Pages
+        if: always()
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: reports/
+
+  deploy-pages:
+    name: Deploy Colorful HTML Report to GitHub Pages
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
