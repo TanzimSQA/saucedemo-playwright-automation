@@ -2002,6 +2002,22 @@ def generate_html_report(
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(html_content, encoding="utf-8")
 
+    # Also export summary.json for email notifications and CI/CD consumption
+    summary_data = {
+        "total": total,
+        "passed": passed,
+        "failed": failed,
+        "skipped": skipped,
+        "pass_rate": pass_rate,
+        "total_duration": total_duration,
+        "total_duration_formatted": format_duration(total_duration),
+        "status": "PASSED" if failed == 0 else "FAILED",
+        "timestamp": run_timestamp,
+        "suites": suites_summary,
+    }
+    summary_file = out_file.parent / "summary.json"
+    summary_file.write_text(json.dumps(summary_data, indent=2), encoding="utf-8")
+
     if additional_paths:
         for p in additional_paths:
             add_file = Path(p)

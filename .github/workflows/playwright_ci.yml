@@ -59,6 +59,21 @@ jobs:
         run: |
           cp reports/index.html reports/test_report.html || true
 
+      - name: Send Email Notification to QA Lead (tanzimsqa@gmail.com)
+        if: always()
+        env:
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "465"
+          SMTP_USER: ${{ secrets.MAIL_USERNAME || secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.MAIL_PASSWORD || secrets.SMTP_PASS }}
+          EMAIL_RECIPIENT: tanzimsqa@gmail.com
+          REPORT_URL: https://tanzimsqa.github.io/saucedemo-playwright-automation/
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          python utils/email_notifier.py
+
       - name: Upload Test Report Artifact
         if: always()
         uses: actions/upload-artifact@v4
